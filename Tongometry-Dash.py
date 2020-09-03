@@ -40,7 +40,7 @@ bulletY_change = 10
 #fired means you can 
 bullet_state = "ready"
 
-background = pygame.image.load("bg.jpg")
+#background = pygame.image.load("bg.jpg")
 
 
 def player(x, y):
@@ -63,7 +63,7 @@ while running:
     #RGB
     screen.fill((0, 12, 0))
     #background
-    screen.blit(background, (0, 0))
+    #screen.blit(background, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print(running)
