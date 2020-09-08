@@ -21,7 +21,7 @@ playerX = 500
 playerY = 500
 playerX_change = 0
 playerY_change = 0
-playerSpeed = 4
+playerSpeed = 5
 
 #Enemy
 enemyImg = pygame.image.load("spaceship.png")
@@ -61,7 +61,7 @@ running = True
 while running:
 
     #RGB
-    screen.fill((0, 12, 0))
+    screen.fill((0, 0, 0))
     #background
     #screen.blit(background, (0, 0))
     for event in pygame.event.get():
@@ -71,10 +71,10 @@ while running:
             print(running)
         #If keystroke is pressed check if it is right or left
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 print("left is pressed")
                 playerX_change = -playerSpeed
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_d:
                 print("right is pressed")
                 playerX_change = playerSpeed
             if event.key == pygame.K_SPACE:
@@ -84,11 +84,11 @@ while running:
                     fire_bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_a:
                 print("left is released")
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_d:
                 print("right is released")
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_a or event.key == pygame.K_d:
                 print("kestroke has been released")
                 playerX_change = 0
 
