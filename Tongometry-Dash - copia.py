@@ -1,5 +1,6 @@
 import pygame
 import random
+import turtle
 
 #Initialize Pygame
 pygame.init()
@@ -16,7 +17,7 @@ pygame.display.set_icon(icon)
 
 #Player
 playerImg = pygame.image.load("space-invaders.png")
-playerX = 500
+playerX = 400
 playerY = 500
 playerX_change = 0
 playerY_change = 0
@@ -36,8 +37,11 @@ running = True
 while running:
 
     #RGB
-    #screen.fill((0, 0, 0))
+    screen.fill((0, 0, 0))
     #background
+
+
+    
 
 #screen.blit(background, (0, 0))
     for event in pygame.event.get():
@@ -49,16 +53,17 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 print("space is pressed")
-                screen.fill((0, 0, 255))
-
+                #player(playerX, playerY)
+                playerY = 300
+                
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 print("kestroke has been released")
-                screen.fill((0, 0, 0))
+                #player(playerX, playerY)
+                playerY = 500
 
-    playerX += playerX_change
-    player(playerX, playerY)
+
     
     #Avoid OOB
     if playerX <= 0:
@@ -67,5 +72,6 @@ while running:
         playerX = screenW - 64
 
 
-    
+    player(playerX, playerY)
+
     pygame.display.update()
