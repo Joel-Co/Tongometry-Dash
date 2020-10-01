@@ -2,20 +2,66 @@
 
 import pygame
 
+#Initialize Pygame
+pygame.init()
+pygame.font.init()
+
+
 #Loading the images
 images = {}
-images["icon"] = pygame.image.load("space-invaders.png")
-images["player"] = pygame.image.load("space-invaders.png")
-images["bg"] = pygame.image.load("bg.png")
-images["bg2"] = pygame.image.load("bg2.png")
+images["icon"] = pygame.image.load("images/space-invaders.png")
+images["player"] = pygame.image.load("images/space-invaders.png")
+images["bg"] = pygame.image.load("images/bg.png")
+images["bg2"] = pygame.image.load("images/bg2.png")
+
+#Creates the fonts
+bigFont = pygame.font.SysFont('Times New Roman', 60)
+smlFont = pygame.font.SysFont('Times New Roman', 30)
+
+
+
+#Definition of the classes:
+
+class Button():
+    '''
+    This class creates a button that is displayed on the screen
+    and that has a color and a text. It's useful for the GUI.
+    '''
+    def __init__(self, x, y, w, h, color, text):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.color = color
+        self.text = text
+        
+        self.state = False
+        
+        self.buttonTextSurface = bigFont.render(self.text, False, (0, 0, 0))
+
+    def display(self):
+        '''Displays the button (rect and text) on the screen'''
+        pygame.draw.rect(screen, self.color, (self.x, self.y, self.w, self.h))
+        screen.blit(self.buttonTextSurface, (self.x, self.y))
+        
+    def press(self):
+        '''Checks is the mouse is inside the button or not'''
+        pos = pygame.mouse.get_pos()
+        if self.x < pos[0] < self.x + self.w and \
+           self.y < pos[1] < self.y + self.h:
+            return True
+        else:
+            return False
 
 
 class GameObject(object):
     '''Descripcion'''
     
-    def __init__(self):
+    def __init__(self, x, y, image):
         '''Descripcion'''
-        pass
+        self.x = x
+        self.y = y
+        self.image = image
     
     def display(self):
         '''Descripcion'''
@@ -70,12 +116,6 @@ class Level():
         pass
 
 
-#Initialize Pygame
-pygame.init()
-pygame.font.init()
-
-bigFont = pygame.font.SysFont('Times New Roman', 60)
-smlFont = pygame.font.SysFont('Times New Roman', 30)
 
 #Create the screen
 screenW, screenH = 1000, 500
@@ -87,46 +127,17 @@ pygame.display.set_icon(images["icon"])
 
 
 keys = []
-
-player = Player(images["player"])
-
 frame = 0
 
-class Button():
-    '''
-    This class creates a button that is displayed on the screen
-    and that has a color and a text. It's useful for the GUI.
-    '''
-    def __init__(self, x, y, w, h, color, text):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-        self.color = color
-        self.text = text
-        
-        self.state = False
-        
-        self.buttonTextSurface = bigFont.render(self.text, False, (0, 0, 0))
+player = Player(images["player"])
+background = GameObject(0, 0, images["bg"])
 
-    def display(self):
-        '''Displays the button (rect and text) on the screen'''
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.w, self.h))
-        screen.blit(self.buttonTextSurface, (self.x, self.y))
-        
-    def press(self):
-        '''Checks is the mouse is inside the button or not'''
-        pos = pygame.mouse.get_pos()
-        if self.x < pos[0] < self.x + self.w and \
-           self.y < pos[1] < self.y + self.h:
-            return True
-        else:
-            return False
 
 startButton = Button(screenW / 2 - 200 / 2, 200, 200, 100, (100, 100, 200), "START")
-#If variable names, TS stands for Text Surface
+#In variable names, TS stands for Text Surface
 titleTS = bigFont.render("Tongometry Dash", False, (50, 50, 150))
 creditsTS = smlFont.render("Creado por I. BORTHA, J. COLASO, T. ONGA. 2020", False, (50, 50, 150))
+
 
 #Game loop
 running = True
@@ -147,28 +158,30 @@ while running:
                 
             if event.type == pygame.MOUSEBUTTONUP:
                 #Button that goes to the next frame
-                if startButton
-                .press():
+                if startButton.press():
                     screen.blit(images["bg"], (0, 0))
                     frame = 1
 
 
     #Code for the second frame
     elif frame == 1:
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    screen.blit(images["bg2"], (0, 0))
+                    player.y = 100
 
-            if event.type == pygame.KEYUP:
+            
+            elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    screen.blit(images["bg"], (0, 0))
+                    player.y = 200
 
-        
+        background.display()
         player.display()
-        
+
     pygame.display.update()
+
+
