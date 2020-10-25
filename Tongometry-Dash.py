@@ -19,6 +19,7 @@ images["icon"] = pygame.image.load("images/space-invaders.png")
 images["player"] = pygame.image.load("images/space-invaders.png")
 images["bg"] = pygame.image.load("images/bg.png")
 images["tonga"] = pygame.image.load("images/tonga.png")
+images["enemy"] = pygame.image.load("images/enemy.png")
 
 #Creates the fonts
 bigFont = pygame.font.SysFont('Times New Roman', 60)
@@ -103,6 +104,18 @@ class Player(GameObject):
         '''Descripcion'''
         pass
     
+    def move(self):
+        key = pygame.key.get_pressed()
+        dist = 1
+        if key[pygame.K_SPACE]:
+            self.y -= 10
+        else:
+            self.y += 10
+        '''if self.y >= 400:
+            self.y = 400
+        elif self.y <= 70:
+            self.y = 70'''
+    
     def dieAndRestart(self):
         '''Descripcion'''
         pass
@@ -119,12 +132,13 @@ class Danger(GameObject):
         self.y = random.randrange(300, gameDisplayH)
         self.w = 40
         self.h = 40
+        self.image = images["enemy3"] = pygame.image.load("images/enemy3.png")
         
         self.speed = -10
 
-    def display(self, color):
-        '''Descripcion'''
-        pygame.draw.rect(gameDisplay, color, [self.x, self.y, self.w, self.h])
+    #def display(self, color):
+        #'''Descripcion'''
+        #pygame.draw.rect(gameDisplay, color, [self.x, self.y, self.w, self.h])
 
     def checkOOBAndRestart(self):
         '''Descripcion'''
@@ -241,6 +255,7 @@ def gameplay():
 
         player.y += y_change
         player.display()
+        player.move()
 
         if player.y < 0:
             restartGame() 
@@ -248,7 +263,8 @@ def gameplay():
             player.y = gameDisplayH - player.h
 
         danger.x += danger.speed
-        danger.display(red)
+        danger.display()
+        #danger.display(red)
         danger.checkOOBAndRestart()
         danger.collide()
         
